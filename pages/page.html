@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Página do Usuário</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card-preview">
+    <div class="profile-pic"></div>
+    <h2 id="previewName">Carregando...</h2>
+    <p id="previewBio"></p>
+    <a id="previewLink" href="#" target="_blank" class="btn-link">Clique Aqui</a>
+    <br><br>
+    <a id="previewInstagram" href="#" target="_blank">Instagram</a> |
+    <a id="previewWhatsapp" href="#" target="_blank">WhatsApp</a>
+  </div>
+
+  <script type="module">
+    import { db, doc, getDoc } from './firebase-config.js';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+
+    if (!userId) {
+      document.body.innerHTML = "<h2>ID da página não encontrado.</h2>";
+      return;
+    }
+
+    const pageRef = doc(db, "pages", userId);
+
+    try {
+      const docSnap = await getDoc(pageRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        document.getElementById("previewName").innerText = data.name || "Sem nome";
+        document.getElementById("previewBio").innerText = data.bio || "";
+        document.getElementById("previewLink").href = data.link || "#";
+        document.getElementById("previewLink").style.backgroundColor = data.color || "#4A90E2";
+
+        if (data.instagram) {
+          document.getElementById("previewInstagram").href = data.instagram;
+          document.getElementById("previewInstagram").innerText = "Instagram";
+        }
+
+        if (data.whatsapp) {
+          document.getElementById("previewWhatsapp").href = `https://wa.me/ ${data.whatsapp}`;
+          document.getElementById("previewWhatsapp").innerText = "WhatsApp";
+        }
+
+        if (data.profileImage) {
+          document.querySelector(".profile-pic").style.backgroundImage = `url(${data.profileImage})`;
+        }
+
+      } else {
+        document.body.innerHTML = "<h2>Página não encontrada.</h2>";
+      }
+    } catch (error) {
+      console.error("Erro ao carregar página:", error);
+      document.body.innerHTML = "<h2>Erro ao carregar página.</h2>";
+    }
+  </script>
+</body>
+</html>

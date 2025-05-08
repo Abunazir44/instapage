@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>InstaPage - Crie sua Bio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Crie sua Página de Bio</h1>
+
+    <label>Nome:</label>
+    <input type="text" id="nameInput" placeholder="Seu nome"/>
+
+    <label>Bio:</label>
+    <textarea id="bioInput" placeholder="Fale sobre você"></textarea>
+
+    <label>Link Único:</label>
+    <input type="url" id="link1Input" placeholder="https://seusite.com "/>
+
+    <label>Cor do Botão:</label>
+    <input type="color" id="colorInput" value="#4A90E2"/>
+
+    <label>Instagram:</label>
+    <input type="url" id="instagramInput" placeholder="https://instagram.com/seuuser "/>
+
+    <label>WhatsApp (número completo):</label>
+    <input type="text" id="whatsappInput" placeholder="5511999999999"/>
+
+    <label>Imagem de Perfil (URL):</label>
+    <input type="url" id="profileImageInput" placeholder="https://seusite.com/imagem.jpg "/>
+
+    <button onclick="previewPage()">Visualizar & Salvar</button>
+  </div>
+
+  <!-- Visualização da página -->
+  <div id="preview" class="card-preview hidden">
+    <div class="profile-pic"></div>
+    <h2 id="previewName">Seu Nome</h2>
+    <p id="previewBio">Sua bio aparecerá aqui.</p>
+    <a id="previewLink" href="#" target="_blank" class="btn-link">Clique Aqui</a>
+    <br><br>
+    <a id="previewInstagram" href="#" target="_blank">Instagram</a> |
+    <a id="previewWhatsapp" href="#" target="_blank">WhatsApp</a>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
