@@ -5,6 +5,10 @@ import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './
 
 let isLoggedIn = false;
 
+console.log("Firebase carregado:", !!auth);
+console.log("Provider carregado:", !!provider);
+console.log("signInWithPopup disponível:", typeof signInWithPopup === "function");
+
 // Torna funções globais para uso no onclick do HTML
 window.loginWithGoogle = () => {
   if (!auth || !signInWithPopup) {
