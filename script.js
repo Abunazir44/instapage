@@ -1,5 +1,6 @@
 // script.js
 
+// Importações do Firebase
 import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './firebase-config.js';
 
 let isLoggedIn = false;
@@ -31,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Função para login com Google
+// Função chamada pelo botão "Entrar com Google"
 window.loginWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
@@ -53,7 +54,7 @@ window.loginWithGoogle = () => {
     });
 };
 
-// Função para logout
+// Função chamada pelo botão "Sair"
 window.logout = () => {
   signOut(auth).then(() => {
     alert("Logout realizado.");
@@ -69,12 +70,9 @@ window.checkLogin = () => {
     return;
   }
 
-  // Redireciona para a página do editor ou mostra o formulário
-  const editorSection = document.querySelector(".editor");
+  // Rola até a seção do editor
+  const editorSection = document.querySelector("#editor-section");
   if (editorSection) {
-    editorSection.classList.remove("hidden");
-
-    // Rola até o formulário
     editorSection.scrollIntoView({ behavior: 'smooth' });
   }
 };
@@ -84,7 +82,7 @@ window.showProductCatalog = () => {
   alert("Exibindo exemplo de catálogo...");
 };
 
-// Upload de Imagem Local
+// Upload de Imagem Local (FileReader)
 let profileImageURL = "";
 
 document.getElementById("imageUpload").addEventListener("change", function (e) {
@@ -94,7 +92,10 @@ document.getElementById("imageUpload").addEventListener("change", function (e) {
   const reader = new FileReader();
   reader.onload = function (event) {
     profileImageURL = event.target.result;
-    document.querySelector(".profile-pic").style.backgroundImage = `url(${profileImageURL})`;
+    const profilePic = document.querySelector(".profile-pic");
+    if (profilePic) {
+      profilePic.style.backgroundImage = `url(${profileImageURL})`;
+    }
   };
   reader.readAsDataURL(file);
 });
