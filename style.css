@@ -155,8 +155,8 @@ header {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #ddd;
-  color: #333;
+  background-color: #4A90E2;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -165,13 +165,5 @@ header {
 }
 
 .secondary-button:hover {
-  background-color: #ccc;
-}
-
-/* Footer */
-footer {
-  background: #fff;
-  padding: 20px 0;
-  text-align: center;
-  color: #777;
+  background-color: #357ABD;
 }
