@@ -5,11 +5,11 @@ import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './
 
 let isLoggedIn = false;
 
-// Torna as funções globais para uso no HTML
+// Torna funções globais para uso no onclick do HTML
 window.loginWithGoogle = () => {
   if (!auth || !signInWithPopup) {
-    console.error("Firebase Auth ou signInWithPopup não carregado.");
-    alert("Erro ao iniciar login: Firebase não está pronto.");
+    console.error("Firebase Auth ou signInWithPopup não foi carregado corretamente.");
+    alert("Erro: Firebase não está pronto. Veja o console para mais detalhes.");
     return;
   }
 
@@ -35,13 +35,13 @@ window.loginWithGoogle = () => {
     })
     .catch((error) => {
       console.error("Erro no login com Google:", error.message);
-      alert("Erro ao fazer login. Confira o console para mais detalhes.");
+      alert(`Erro ao fazer login: ${error.message}`);
     });
 };
 
 window.logout = () => {
   if (!auth || !signOut) {
-    console.error("Firebase Auth ou signOut não carregado.");
+    console.error("Firebase Auth ou signOut não foi carregado.");
     alert("Erro ao sair.");
     return;
   }
@@ -49,8 +49,9 @@ window.logout = () => {
   signOut(auth).then(() => {
     alert("Logout realizado.");
     window.location.reload();
-  }).catch(() => {
-    alert("Erro ao sair.");
+  }).catch((error) => {
+    console.error("Erro ao sair:", error.message);
+    alert("Erro ao sair: " + error.message);
   });
 };
 
@@ -61,8 +62,9 @@ window.checkLogin = () => {
   }
 
   // Rola até a seção do editor
-  const editorSection = document.querySelector("#editor-section");
+  const editorSection = document.getElementById("editor-section");
   if (editorSection) {
+    editorSection.classList.remove("hidden");
     editorSection.scrollIntoView({ behavior: 'smooth' });
   }
 };
@@ -72,30 +74,35 @@ window.showProductCatalog = () => {
 };
 
 // Upload de Imagem Local
-let profileImageURL = "";
+document.addEventListener("DOMContentLoaded", () => {
+  const imageUpload = document.getElementById("imageUpload");
+  let profileImageURL = "";
 
-const imageUpload = document.getElementById("imageUpload");
-if (imageUpload) {
-  imageUpload.addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
+  if (imageUpload) {
+    imageUpload.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      profileImageURL = event.target.result;
-      const profilePic = document.querySelector(".profile-pic");
-      if (profilePic) {
-        profilePic.style.backgroundImage = `url(${profileImageURL})`;
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-}
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        profileImageURL = event.target.result;
+        const profilePic = document.querySelector(".profile-pic");
+        if (profilePic) {
+          profilePic.style.backgroundImage = `url(${profileImageURL})`;
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+});
 
 // Adicionar múltiplos links
 window.addLink = () => {
   const container = document.getElementById("links-container");
-  if (!container) return;
+  if (!container) {
+    console.error("Container de links não encontrado!");
+    return;
+  }
 
   const group = document.createElement("div");
   group.className = "link-group";
@@ -137,5 +144,42 @@ window.previewPage = () => {
     }
   });
 
-  document.getElementById("preview").classList.remove("hidden");
+  const previewCard = document.getElementById("preview");
+  if (previewCard) {
+    previewCard.classList.remove("hidden");
+    previewCard.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+// Observador de estado do usuário
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const userNameDisplay = document.getElementById("user-name");
+
+    if (userNameDisplay) userNameDisplay.innerText = `Olá, ${user.displayName}`;
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+
+    isLoggedIn = true;
+
+    // Mostra o editor se o usuário já estiver logado
+    const editorSection = document.querySelector(".editor");
+    if (editorSection) editorSection.classList.remove("hidden");
+  } else {
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const userNameDisplay = document.getElementById("user-name");
+
+    if (userNameDisplay) userNameDisplay.innerText = "";
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+
+    isLoggedIn = false;
+
+    // Esconde o editor se o usuário não estiver logado
+    const editorSection = document.querySelector(".editor");
+    if (editorSection) editorSection.classList.add("hidden");
+  }
 };
