@@ -3,6 +3,14 @@
 // Importações do Firebase
 import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './firebase-config.js';
 
+export {
+  auth,
+  provider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
+};
+
 let isLoggedIn = false;
 
 // Torna as funções globais para uso no onclick do HTML

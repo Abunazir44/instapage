@@ -14,12 +14,12 @@
       <div class="header-content">
         <!-- Logo à Esquerda -->
         <div class="logo-container">
-          <img src="logo.png" alt="Logo InstaPage" class="logo" />
+          <!-- Certifique-se de que logo.png está na mesma pasta do index.html -->
+          <img src="logo.png" alt="Logo InstaPage" class="logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Logo ';" />
         </div>
 
         <!-- Menu Centralizado -->
         <nav class="menu">
-          <a href="#templates">Templates</a>
           <a href="#features">Recursos</a>
           <a href="#pricing">Planos</a>
           <button id="login-btn" onclick="loginWithGoogle()">Entrar com Google</button>
@@ -39,7 +39,12 @@
     <div class="container">
       <div class="hero-content">
         <div class="hero-image">
-          <img src="agregador-links.png" alt="Agregador de Links" />
+          <!-- Imagem com fallback se não carregar -->
+          <img 
+            src="agregador-links.png" 
+            alt="Agregador de Links" 
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/500x300?text=Agregador+de+Links ';"
+          />
         </div>
         <div class="hero-text">
           <h2>Agregador de Links</h2>
@@ -61,13 +66,18 @@
         <div class="feature-col">
           <h2>Catálogo de Produtos</h2>
           <p>
-            <h3>Para quem quer aumentar as vendas</h3><br />
+            Para quem quer aumentar as vendas<br />
             Divulgue seus produtos e receba pedidos com um catálogo integrado ao seu perfil.
           </p>
           <button onclick="showProductCatalog()" class="secondary-button">Ver Exemplo de Catálogo</button>
         </div>
         <div class="feature-col">
-          <img src="catalogo-produtos.png" alt="Catálogo de Produtos" />
+          <!-- Imagem com fallback -->
+          <img 
+            src="catalogo-produtos.png" 
+            alt="Catálogo de Produtos" 
+            onerror="this.onerror=null; this.src='https://via.placeholder.com/500x300?text=Cat%C3%A1logo+de+Produtos ';"
+          />
         </div>
       </div>
     </div>
@@ -104,7 +114,7 @@
 
   <!-- Preview da Página -->
   <div id="preview" class="card-preview default hidden">
-    <div class="profile-pic"></div>
+    <div class="profile-pic" style="background-image: url('preview-default.jpg');" onerror="this.style.backgroundImage='url(https://via.placeholder.com/100?text=Foto+do+Perfil )';"></div>
     <h2 id="previewName">Carregando...</h2>
     <p id="previewBio"></p>
     <div id="previewLinks"></div>
