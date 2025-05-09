@@ -1,31 +1,88 @@
-import { db, doc, setDoc } from './firebase-config.js';
+// script.js
+
+import {
+  db,
+  doc,
+  setDoc,
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from './firebase-config.js';
+
+let profileImageURL = "";
+
+document.getElementById("imageUpload").addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const storageRef = ref(storage, 'profile-images/' + file.name);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on('state_changed',
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Progresso do upload:', progress + '%');
+    },
+    (error) => {
+      alert("Erro ao fazer upload da imagem.");
+      console.error("Erro no upload:", error);
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        profileImageURL = downloadURL;
+        document.querySelector(".profile-pic").style.backgroundImage = `url(${downloadURL})`;
+      });
+    }
+  );
+});
+
+function addLink() {
+  const container = document.getElementById("links-container");
+  const group = document.createElement("div");
+  group.className = "link-group";
+  group.innerHTML = `
+    <input type="url" placeholder="https://seusite.com " class="link-input"/>
+    <input type="text" placeholder="Nome do link" class="link-title"/>
+  `;
+  container.appendChild(group);
+}
 
 function previewPage() {
   const name = document.getElementById("nameInput").value.trim();
   const bio = document.getElementById("bioInput").value.trim();
-  const link = document.getElementById("link1Input").value.trim();
   const color = document.getElementById("colorInput").value;
-  const instagram = document.getElementById("instagramInput").value.trim();
-  const whatsapp = document.getElementById("whatsappInput").value.trim();
-  const profileImage = document.getElementById("profileImageInput").value.trim();
+  const template = document.getElementById("templateSelect").value;
+
+  const links = [];
+  document.querySelectorAll(".link-group").forEach(group => {
+    const url = group.querySelector(".link-input").value.trim();
+    const title = group.querySelector(".link-title").value.trim();
+    if (url && title) links.push({ url, title });
+  });
 
   // Validação mínima
-  if (!name || !bio || !link) {
-    alert("Nome, Bio e Link são obrigatórios");
+  if (!name || !bio || links.length === 0) {
+    alert("Preencha todos os campos obrigatórios.");
     return;
   }
 
   // Atualiza preview
   document.getElementById("previewName").innerText = name;
   document.getElementById("previewBio").innerText = bio;
-  document.getElementById("previewLink").href = link;
-  document.getElementById("previewLink").style.backgroundColor = color;
+  document.getElementById("preview").className = `card-preview ${template} hidden`;
 
-  // Mostra imagem se tiver
-  const profilePic = document.querySelector(".profile-pic");
-  if (profileImage) {
-    profilePic.style.backgroundImage = `url(${profileImage})`;
-  }
+  const linksContainer = document.getElementById("previewLinks");
+  linksContainer.innerHTML = "";
+  links.forEach(link => {
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.textContent = link.title;
+    a.className = "btn-link";
+    a.style.backgroundColor = color;
+    a.target = "_blank";
+    linksContainer.appendChild(a);
+  });
 
   document.getElementById("preview").classList.remove("hidden");
 
@@ -36,11 +93,10 @@ function previewPage() {
   saveToFirebase(userId, {
     name,
     bio,
-    link,
+    links,
     color,
-    instagram,
-    whatsapp,
-    profileImage
+    template,
+    profileImage: profileImageURL
   });
 }
 
@@ -51,11 +107,9 @@ function generateUserId() {
 async function saveToFirebase(userId, data) {
   try {
     await setDoc(doc(db, "pages", userId), data);
-    alert(`Página criada! Compartilhe: https://localhost:3000/page.html?id=${userId}`);
+    alert(`Página criada! Compartilhe: https://localhost/page.html?id=${userId}`);
   } catch (error) {
     console.error("Erro ao salvar página:", error);
     alert("Erro ao salvar a página.");
   }
 }
-
-window.previewPage = previewPage;

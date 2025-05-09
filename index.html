@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Header -->
+  <div id="auth-buttons">
+    <span id="user-name"></span>
+    <button id="login-btn" onclick="loginWithGoogle()">Entrar com Google</button>
+    <button id="logout-btn" onclick="logout()" style="display: none;">Sair</button>
+  </div>
+
+  <!-- Formulário -->
   <div class="container">
     <h1>Crie sua Página de Bio</h1>
 
@@ -15,35 +23,40 @@
     <label>Bio:</label>
     <textarea id="bioInput" placeholder="Fale sobre você"></textarea>
 
-    <label>Link Único:</label>
-    <input type="url" id="link1Input" placeholder="https://seusite.com "/>
+    <label>Escolha um Template:</label>
+    <select id="templateSelect">
+      <option value="default">Default</option>
+      <option value="dark">Escuro</option>
+      <option value="gradient">Degradê</option>
+    </select>
+
+    <label>Upload da Imagem:</label>
+    <input type="file" id="imageUpload" accept="image/*" />
+
+    <div id="links-container">
+      <div class="link-group">
+        <input type="url" placeholder="https://seusite.com " class="link-input"/>
+        <input type="text" placeholder="Nome do link" class="link-title"/>
+      </div>
+    </div>
+    <button onclick="addLink()">+ Adicionar Link</button>
 
     <label>Cor do Botão:</label>
     <input type="color" id="colorInput" value="#4A90E2"/>
 
-    <label>Instagram:</label>
-    <input type="url" id="instagramInput" placeholder="https://instagram.com/seuuser "/>
-
-    <label>WhatsApp (número completo):</label>
-    <input type="text" id="whatsappInput" placeholder="5511999999999"/>
-
-    <label>Imagem de Perfil (URL):</label>
-    <input type="url" id="profileImageInput" placeholder="https://seusite.com/imagem.jpg "/>
-
     <button onclick="previewPage()">Visualizar & Salvar</button>
   </div>
 
-  <!-- Visualização da página -->
-  <div id="preview" class="card-preview hidden">
+  <!-- Preview -->
+  <div id="preview" class="card-preview default hidden">
     <div class="profile-pic"></div>
-    <h2 id="previewName">Seu Nome</h2>
-    <p id="previewBio">Sua bio aparecerá aqui.</p>
-    <a id="previewLink" href="#" target="_blank" class="btn-link">Clique Aqui</a>
-    <br><br>
-    <a id="previewInstagram" href="#" target="_blank">Instagram</a> |
-    <a id="previewWhatsapp" href="#" target="_blank">WhatsApp</a>
+    <h2 id="previewName">Carregando...</h2>
+    <p id="previewBio"></p>
+    <div id="previewLinks"></div>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <!-- Scripts -->
+  <script type="module" src="./auth.js"></script>
+  <script type="module" src="./script.js"></script>
 </body>
 </html>

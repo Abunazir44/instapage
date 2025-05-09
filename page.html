@@ -3,21 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <title>Página do Usuário</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <div class="card-preview">
+  <div class="card-preview default">
     <div class="profile-pic"></div>
     <h2 id="previewName">Carregando...</h2>
     <p id="previewBio"></p>
-    <a id="previewLink" href="#" target="_blank" class="btn-link">Clique Aqui</a>
-    <br><br>
-    <a id="previewInstagram" href="#" target="_blank">Instagram</a> |
-    <a id="previewWhatsapp" href="#" target="_blank">WhatsApp</a>
+    <div id="previewLinks"></div>
   </div>
 
   <script type="module">
-    import { db, doc, getDoc } from './firebase-config.js';
+    import { db, doc, getDoc } from '../firebase-config.js';
 
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
@@ -36,22 +33,23 @@
 
         document.getElementById("previewName").innerText = data.name || "Sem nome";
         document.getElementById("previewBio").innerText = data.bio || "";
-        document.getElementById("previewLink").href = data.link || "#";
-        document.getElementById("previewLink").style.backgroundColor = data.color || "#4A90E2";
 
-        if (data.instagram) {
-          document.getElementById("previewInstagram").href = data.instagram;
-          document.getElementById("previewInstagram").innerText = "Instagram";
-        }
-
-        if (data.whatsapp) {
-          document.getElementById("previewWhatsapp").href = `https://wa.me/ ${data.whatsapp}`;
-          document.getElementById("previewWhatsapp").innerText = "WhatsApp";
-        }
+        const linksContainer = document.getElementById("previewLinks");
+        data.links.forEach(link => {
+          const a = document.createElement("a");
+          a.href = link.url;
+          a.textContent = link.title;
+          a.className = "btn-link";
+          a.style.backgroundColor = data.color || "#4A90E2";
+          a.target = "_blank";
+          linksContainer.appendChild(a);
+        });
 
         if (data.profileImage) {
           document.querySelector(".profile-pic").style.backgroundImage = `url(${data.profileImage})`;
         }
+
+        document.querySelector(".card-preview").className = `card-preview ${data.template || "default"}`;
 
       } else {
         document.body.innerHTML = "<h2>Página não encontrada.</h2>";
