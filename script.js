@@ -1,33 +1,82 @@
 // script.js
 
-// Simulação de login/logout
+// 🔹 Importações do Firebase
+import {
+  auth,
+  provider,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from './firebase-config.js';
+
+import {
+  db,
+  doc,
+  setDoc,
+  getDoc
+} from './firebase-config.js';
+
+import {
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from './firebase-config.js';
+
+// 🧠 Variáveis Globais
+let profileImageURL = "";
 let isLoggedIn = false;
 
-function login() {
-  const confirmLogin = confirm("Você deseja fazer login?");
-  if (confirmLogin) {
+// 📁 Elementos do DOM
+const userNameDisplay = document.getElementById("user-name");
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+
+// 🔄 Observa mudanças no estado do usuário
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userNameDisplay.innerText = `Olá, ${user.displayName}`;
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
     isLoggedIn = true;
-    alert("Login realizado com sucesso!");
-  }
-}
-
-function logout() {
-  if (confirm("Deseja sair?")) {
-    isLoggedIn = false;
-    alert("Logout realizado.");
-  }
-}
-
-function checkLogin() {
-  if (isLoggedIn) {
-    window.location.href = "editor.html";
   } else {
-    alert("Por favor, faça login primeiro.");
+    userNameDisplay.innerText = "";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    isLoggedIn = false;
   }
-}
+});
 
-// Adicionar mais campos de link
-function addLink() {
+// 🔐 Login com Google
+window.loginWithGoogle = () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      userNameDisplay.innerText = `Olá, ${user.displayName}`;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+      isLoggedIn = true;
+    })
+    .catch((error) => {
+      console.error("Erro ao logar:", error);
+      alert("Erro ao fazer login.");
+    });
+};
+
+// 🔚 Logout
+window.logout = () => {
+  signOut(auth).then(() => {
+    userNameDisplay.innerText = "";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    isLoggedIn = false;
+    alert("Você saiu.");
+  });
+};
+
+// ➕ Adicionar mais links
+window.addLink = () => {
   const container = document.getElementById("links-container");
   const group = document.createElement("div");
   group.className = "link-group";
@@ -36,18 +85,9 @@ function addLink() {
     <input type="text" placeholder="Nome do link" class="link-title"/>
   `;
   container.appendChild(group);
-}
+};
 
-// Upload de imagem local para Firebase Storage
-import {
-  storage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from './firebase-config.js';
-
-let profileImageURL = "";
-
+// 🖼️ Upload de Imagem (Firebase Storage)
 document.getElementById("imageUpload").addEventListener("change", function (e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -74,8 +114,8 @@ document.getElementById("imageUpload").addEventListener("change", function (e) {
   );
 });
 
-// Preview da página
-function previewPage() {
+// 👁️ Preview em tempo real
+window.previewPage = () => {
   const name = document.getElementById("nameInput").value.trim();
   const bio = document.getElementById("bioInput").value.trim();
   const color = document.getElementById("colorInput").value;
@@ -101,6 +141,7 @@ function previewPage() {
 
   const linksContainer = document.getElementById("previewLinks");
   linksContainer.innerHTML = "";
+
   links.forEach(link => {
     const a = document.createElement("a");
     a.href = link.url;
@@ -125,15 +166,14 @@ function previewPage() {
     template,
     profileImage: profileImageURL
   });
-}
+};
 
+// 🔢 Gera ID único
 function generateUserId() {
   return Math.random().toString(36).substring(2, 10);
 }
 
-// Salvar no Firebase
-import { db, doc, setDoc } from './firebase-config.js';
-
+// 💾 Salva no Firebase
 async function saveToFirebase(userId, data) {
   try {
     await setDoc(doc(db, "pages", userId), data);

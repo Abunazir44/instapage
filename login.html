@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - InstaPage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      background-color: #DB4437;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Entrar com Google</h2>
+    <p>Clique no botão abaixo para entrar com sua conta Google.</p>
+    <button onclick="simulateGoogleLogin()">Entrar com Google</button>
+  </div>
+
+  <script>
+    function simulateGoogleLogin() {
+      const confirmLogin = confirm("Deseja realmente entrar com Google?");
+      if (confirmLogin) {
+        localStorage.setItem("isLoggedIn", "true");
+        alert("Login realizado com sucesso!");
+        window.location.href = "editor.html";
+      }
+    }
+  </script>
+</body>
+</html>
