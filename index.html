@@ -2,61 +2,79 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>InstaPage - Crie sua Bio</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- Header -->
-  <div id="auth-buttons">
-    <span id="user-name"></span>
-    <button id="login-btn" onclick="loginWithGoogle()">Entrar com Google</button>
-    <button id="logout-btn" onclick="logout()" style="display: none;">Sair</button>
-  </div>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <!-- Logo à Esquerda -->
+        <div class="logo-container">
+          <img src="logo.png" alt="Logo InstaPage" class="logo" />
+        </div>
 
-  <!-- Formulário -->
-  <div class="container">
-    <h1>Crie sua Página de Bio</h1>
-
-    <label>Nome:</label>
-    <input type="text" id="nameInput" placeholder="Seu nome"/>
-
-    <label>Bio:</label>
-    <textarea id="bioInput" placeholder="Fale sobre você"></textarea>
-
-    <label>Escolha um Template:</label>
-    <select id="templateSelect">
-      <option value="default">Default</option>
-      <option value="dark">Escuro</option>
-      <option value="gradient">Degradê</option>
-    </select>
-
-    <label>Upload da Imagem:</label>
-    <input type="file" id="imageUpload" accept="image/*" />
-
-    <div id="links-container">
-      <div class="link-group">
-        <input type="url" placeholder="https://seusite.com " class="link-input"/>
-        <input type="text" placeholder="Nome do link" class="link-title"/>
+        <!-- Menu Centralizado -->
+        <nav class="menu">
+          <a href="#templates">Templates</a>
+          <a href="#features">Recursos</a>
+          <a href="#pricing">Planos</a>
+          <button id="login-btn" onclick="login()">Entrar</button>
+        </nav>
       </div>
     </div>
-    <button onclick="addLink()">+ Adicionar Link</button>
+  </header>
 
-    <label>Cor do Botão:</label>
-    <input type="color" id="colorInput" value="#4A90E2"/>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-image">
+          <img src="agregador-links.png" alt="Agregador de Links" />
+        </div>
+        <div class="hero-text">
+          <h2>Agregador de Links</h2>
+          <h3>Para quem precisa de organização</h3>
+          <p>
+            Reúna todos os seus links em um só lugar e facilite o acesso ao que realmente importa.
+            Rápido e simples.
+          </p>
+          <button onclick="goToEditor()" class="cta-button">Criar minha página agora</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <button onclick="previewPage()">Visualizar & Salvar</button>
-  </div>
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-col">
+          <h2>Catálogo de Produtos</h2>
+          <p>
+            Para quem quer aumentar as vendas<br />
+            Divulgue seus produtos e receba pedidos com um catálogo integrado ao seu perfil.
+          </p>
+          <button onclick="showProductCatalog()" class="secondary-button">Ver Exemplo de Catálogo</button>
+        </div>
+        <div class="feature-col">
+          <img src="catalogo-produtos.png" alt="Catálogo de Produtos" />
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Preview -->
-  <div id="preview" class="card-preview default hidden">
-    <div class="profile-pic"></div>
-    <h2 id="previewName">Carregando...</h2>
-    <p id="previewBio"></p>
-    <div id="previewLinks"></div>
-  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 InstaPage. Todos os direitos reservados.</p>
+    </div>
+  </footer>
 
-  <!-- Scripts -->
-  <script type="module" src="./auth.js"></script>
-  <script type="module" src="./script.js"></script>
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 </html>

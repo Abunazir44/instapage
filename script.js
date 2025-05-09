@@ -113,3 +113,25 @@ async function saveToFirebase(userId, data) {
     alert("Erro ao salvar a página.");
   }
 }
+// script.js
+
+// Função: Ir para o editor
+function goToEditor() {
+  window.location.href = "editor.html"; // Substitua pelo caminho correto do editor
+}
+
+// Função: Mostrar exemplo de catálogo de produtos
+function showProductCatalog() {
+  alert("Exibindo exemplo de catálogo de produtos...");
+  // Você pode redirecionar para uma página específica ou abrir um modal
+  // window.location.href = "catalogo.html";
+}
+
+// Função: Login (exemplo)
+function login() {
+  const isLoggedIn = confirm("Deseja fazer login?");
+  if (isLoggedIn) {
+    alert("Redirecionando para login...");
+    // window.location.href = "login.html";
+  }
+}

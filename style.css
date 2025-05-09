@@ -1,5 +1,4 @@
-/* style.css */
-
+/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,73 +7,171 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #f5f5f5;
-  padding: 20px;
-}
-
-#auth-buttons {
-  text-align: right;
-  margin-bottom: 20px;
+  background: #fff;
+  color: #333;
 }
 
 .container {
-  max-width: 400px;
+  max-width: 1200px;
   margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.card-preview {
-  margin-top: 40px;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+/* Header */
+header {
+  background: #fff;
+  padding: 20px 0;
 }
 
-.hidden {
-  display: none;
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.default {
-  background: white;
-  color: black;
+.logo-container {
+  flex: 1;
 }
 
-.dark {
-  background: #1a1a1a;
-  color: white;
+.logo {
+  width: 50px;
 }
 
-.gradient {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
-  color: white;
+.menu {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.profile-pic {
-  width: 80px;
-  height: 80px;
-  background: #ddd;
-  border-radius: 50%;
-  margin: auto;
-  margin-bottom: 15px;
-  background-size: cover;
-  background-position: center;
-}
-
-.btn-link {
-  display: block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  color: white;
+.menu a,
+#login-btn {
   text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.menu a:hover {
+  color: #4A90E2;
+}
+
+#login-btn {
+  background-color: #4A90E2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
   border-radius: 8px;
-  width: fit-content;
-  margin: 10px auto;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#login-btn:hover {
+  background-color: #357ABD;
+}
+
+/* Hero Section */
+.hero {
+  background: #fff;
+  padding: 60px 0;
+}
+
+.hero-content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.hero-text {
+  max-width: 500px;
+}
+
+.hero-text h2 {
+  color: #4A90E2;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.hero-text h3 {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #4A90E2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #357ABD;
+}
+
+/* Features Section */
+.features {
+  background: #f5f5f5;
+  padding: 60px 0;
+}
+
+.feature-row {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+}
+
+.feature-col {
+  flex: 1;
+}
+
+.feature-col img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: #ccc;
+}
+
+/* Footer */
+footer {
+  background: #fff;
+  padding: 20px 0;
+  text-align: center;
+  color: #777;
 }
