@@ -27,7 +27,7 @@
         </nav>
       </div>
 
-      <!-- Mensagem do usuário logado -->
+      <!-- Nome do usuário logado -->
       <div id="auth-info">
         <span id="user-name"></span>
       </div>
@@ -84,13 +84,6 @@
       <label>Bio:</label>
       <textarea id="bioInput" placeholder="Fale sobre você"></textarea>
 
-      <label>Escolha um Template:</label>
-      <select id="templateSelect">
-        <option value="default">Default</option>
-        <option value="dark">Escuro</option>
-        <option value="gradient">Degradê</option>
-      </select>
-
       <label>Upload da Imagem:</label>
       <input type="file" id="imageUpload" accept="image/*" />
 
@@ -125,7 +118,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="./auth.js"></script>
+  <script type="module" src="./firebase-config.js"></script>
   <script type="module" src="./script.js"></script>
 </body>
 </html>
