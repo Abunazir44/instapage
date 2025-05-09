@@ -4,7 +4,6 @@ import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './
 
 let isLoggedIn = false;
 
-// Torna funções globais para uso no HTML
 window.loginWithGoogle = () => {
   if (!auth || !signInWithPopup) {
     console.error("Firebase Auth ou signInWithPopup não carregado.");
@@ -15,20 +14,18 @@ window.loginWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
-      console.log("Usuário logado:", user);
-
-      // Atualiza interface
       document.getElementById("user-name").innerText = `Olá, ${user.displayName}`;
       document.getElementById("login-btn").style.display = "none";
       document.getElementById("logout-btn").style.display = "inline-block";
       isLoggedIn = true;
 
-      // Mostra editor
-      const editorSection = document.querySelector(".editor");
-      if (editorSection) editorSection.classList.remove("hidden");
+      // Mostra editor e oculta conteúdo inicial
+      document.querySelector(".editor").classList.remove("hidden");
+      document.getElementById("hero-section").classList.add("hidden");
+      document.getElementById("features-section").classList.add("hidden");
     })
     .catch((error) => {
-      console.error("Erro no login com Google:", error.message);
+      console.error("Erro no login:", error.message);
       alert(`Erro ao fazer login: ${error.message}`);
     });
 };
@@ -118,8 +115,8 @@ window.previewPage = () => {
   linksContainer.innerHTML = "";
 
   document.querySelectorAll(".link-group").forEach(group => {
-    const url = group.querySelector(".link-input")?.value.trim();
-    const title = group.querySelector(".link-title")?.value.trim();
+    const url = group.querySelector(".link-input").value.trim();
+    const title = group.querySelector(".link-title").value.trim();
     if (url && title) {
       const a = document.createElement("a");
       a.href = url;
@@ -131,14 +128,9 @@ window.previewPage = () => {
     }
   });
 
-  const previewCard = document.getElementById("preview");
-  if (previewCard) {
-    previewCard.classList.remove("hidden");
-    previewCard.scrollIntoView({ behavior: "smooth" });
-  }
+  document.getElementById("preview").classList.remove("hidden");
 };
 
-// Observador de estado do usuário
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById("user-name").innerText = `Olá, ${user.displayName}`;
@@ -146,14 +138,24 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById("logout-btn").style.display = "inline-block";
     isLoggedIn = true;
 
+    // Mostra o editor
     const editorSection = document.querySelector(".editor");
     if (editorSection) editorSection.classList.remove("hidden");
+
+    // Esconde seções iniciais
+    document.getElementById("hero-section").classList.add("hidden");
+    document.getElementById("features-section").classList.add("hidden");
   } else {
     document.getElementById("user-name").innerText = "";
     document.getElementById("login-btn").style.display = "inline-block";
     document.getElementById("logout-btn").style.display = "none";
     isLoggedIn = false;
 
+    // Mostra novamente as seções iniciais
+    document.getElementById("hero-section").classList.remove("hidden");
+    document.getElementById("features-section").classList.remove("hidden");
+
+    // Esconde o editor
     const editorSection = document.querySelector(".editor");
     if (editorSection) editorSection.classList.add("hidden");
   }
