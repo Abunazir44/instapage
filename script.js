@@ -1,44 +1,29 @@
 // script.js
 
-// Importações do Firebase
 import { auth, provider, signInWithPopup, onAuthStateChanged, signOut } from './firebase-config.js';
-
-export {
-  auth,
-  provider,
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut
-};
 
 let isLoggedIn = false;
 
-// Torna as funções globais para uso no onclick do HTML
+// Torna funções globais para uso no HTML
 window.loginWithGoogle = () => {
   if (!auth || !signInWithPopup) {
-    console.error("Firebase Auth ou signInWithPopup não foi carregado corretamente.");
-    alert("Erro: Firebase não está pronto. Veja o console para mais detalhes.");
+    console.error("Firebase Auth ou signInWithPopup não carregado.");
+    alert("Erro ao iniciar login: Firebase não está pronto.");
     return;
   }
 
-  console.log("Tentando fazer login...");
   signInWithPopup(auth, provider)
     .then((result) => {
       const user = result.user;
       console.log("Usuário logado:", user);
 
       // Atualiza interface
-      const loginBtn = document.getElementById("login-btn");
-      const logoutBtn = document.getElementById("logout-btn");
-      const userNameDisplay = document.getElementById("user-name");
-
-      if (userNameDisplay) userNameDisplay.innerText = `Olá, ${user.displayName}`;
-      if (loginBtn) loginBtn.style.display = "none";
-      if (logoutBtn) logoutBtn.style.display = "inline-block";
-
+      document.getElementById("user-name").innerText = `Olá, ${user.displayName}`;
+      document.getElementById("login-btn").style.display = "none";
+      document.getElementById("logout-btn").style.display = "inline-block";
       isLoggedIn = true;
 
-      // Mostra o editor
+      // Mostra editor
       const editorSection = document.querySelector(".editor");
       if (editorSection) editorSection.classList.remove("hidden");
     })
@@ -50,7 +35,7 @@ window.loginWithGoogle = () => {
 
 window.logout = () => {
   if (!auth || !signOut) {
-    console.error("Firebase Auth ou signOut não foi carregado.");
+    console.error("Firebase Auth ou signOut não disponível.");
     alert("Erro ao sair.");
     return;
   }
@@ -70,7 +55,6 @@ window.checkLogin = () => {
     return;
   }
 
-  // Rola até a seção do editor
   const editorSection = document.getElementById("editor-section");
   if (editorSection) {
     editorSection.classList.remove("hidden");
@@ -82,7 +66,6 @@ window.showProductCatalog = () => {
   alert("Exibindo exemplo de catálogo...");
 };
 
-// Upload de Imagem Local
 document.addEventListener("DOMContentLoaded", () => {
   const imageUpload = document.getElementById("imageUpload");
   let profileImageURL = "";
@@ -105,13 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Adicionar múltiplos links
 window.addLink = () => {
   const container = document.getElementById("links-container");
-  if (!container) {
-    console.error("Container de links não encontrado!");
-    return;
-  }
+  if (!container) return;
 
   const group = document.createElement("div");
   group.className = "link-group";
@@ -122,7 +101,6 @@ window.addLink = () => {
   container.appendChild(group);
 };
 
-// Preview da Página
 window.previewPage = () => {
   const name = document.getElementById("nameInput")?.value.trim();
   const bio = document.getElementById("bioInput")?.value.trim();
@@ -163,29 +141,19 @@ window.previewPage = () => {
 // Observador de estado do usuário
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    const loginBtn = document.getElementById("login-btn");
-    const logoutBtn = document.getElementById("logout-btn");
-    const userNameDisplay = document.getElementById("user-name");
-
-    if (userNameDisplay) userNameDisplay.innerText = `Olá, ${user.displayName}`;
-    if (loginBtn) loginBtn.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "inline-block";
+    document.getElementById("user-name").innerText = `Olá, ${user.displayName}`;
+    document.getElementById("login-btn").style.display = "none";
+    document.getElementById("logout-btn").style.display = "inline-block";
     isLoggedIn = true;
 
-    // Mostra o editor se o usuário já estiver logado
     const editorSection = document.querySelector(".editor");
     if (editorSection) editorSection.classList.remove("hidden");
   } else {
-    const loginBtn = document.getElementById("login-btn");
-    const logoutBtn = document.getElementById("logout-btn");
-    const userNameDisplay = document.getElementById("user-name");
-
-    if (userNameDisplay) userNameDisplay.innerText = "";
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (logoutBtn) logoutBtn.style.display = "none";
+    document.getElementById("user-name").innerText = "";
+    document.getElementById("login-btn").style.display = "inline-block";
+    document.getElementById("logout-btn").style.display = "none";
     isLoggedIn = false;
 
-    // Esconde o editor se o usuário não estiver logado
     const editorSection = document.querySelector(".editor");
     if (editorSection) editorSection.classList.add("hidden");
   }
