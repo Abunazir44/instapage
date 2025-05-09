@@ -161,7 +161,6 @@ onAuthStateChanged(auth, (user) => {
     if (userNameDisplay) userNameDisplay.innerText = `Olá, ${user.displayName}`;
     if (loginBtn) loginBtn.style.display = "none";
     if (logoutBtn) logoutBtn.style.display = "inline-block";
-
     isLoggedIn = true;
 
     // Mostra o editor se o usuário já estiver logado
@@ -175,11 +174,10 @@ onAuthStateChanged(auth, (user) => {
     if (userNameDisplay) userNameDisplay.innerText = "";
     if (loginBtn) loginBtn.style.display = "inline-block";
     if (logoutBtn) logoutBtn.style.display = "none";
-
     isLoggedIn = false;
 
     // Esconde o editor se o usuário não estiver logado
     const editorSection = document.querySelector(".editor");
     if (editorSection) editorSection.classList.add("hidden");
   }
-};
+});
