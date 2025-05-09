@@ -22,8 +22,14 @@
           <a href="#templates">Templates</a>
           <a href="#features">Recursos</a>
           <a href="#pricing">Planos</a>
-          <button id="login-btn" onclick="login()">Entrar</button>
+          <button id="login-btn" onclick="loginWithGoogle()">Entrar com Google</button>
+          <button id="logout-btn" onclick="logout()" style="display: none;">Sair</button>
         </nav>
+      </div>
+
+      <!-- Mensagem do usuário logado -->
+      <div id="auth-info">
+        <span id="user-name"></span>
       </div>
     </div>
   </header>
@@ -67,6 +73,50 @@
     </div>
   </section>
 
+  <!-- Editor Section -->
+  <section class="editor hidden" id="editor-section">
+    <div class="container">
+      <h2>Crie sua Página de Bio</h2>
+
+      <label>Nome:</label>
+      <input type="text" id="nameInput" placeholder="Seu nome"/>
+
+      <label>Bio:</label>
+      <textarea id="bioInput" placeholder="Fale sobre você"></textarea>
+
+      <label>Escolha um Template:</label>
+      <select id="templateSelect">
+        <option value="default">Default</option>
+        <option value="dark">Escuro</option>
+        <option value="gradient">Degradê</option>
+      </select>
+
+      <label>Upload da Imagem:</label>
+      <input type="file" id="imageUpload" accept="image/*" />
+
+      <div id="links-container">
+        <div class="link-group">
+          <input type="url" placeholder="https://seusite.com " class="link-input"/>
+          <input type="text" placeholder="Nome do link" class="link-title"/>
+        </div>
+      </div>
+      <button onclick="addLink()">+ Adicionar Link</button>
+
+      <label>Cor do Botão:</label>
+      <input type="color" id="colorInput" value="#4A90E2"/>
+
+      <button onclick="previewPage()">Visualizar & Salvar</button>
+    </div>
+  </section>
+
+  <!-- Preview da Página -->
+  <div id="preview" class="card-preview default hidden">
+    <div class="profile-pic"></div>
+    <h2 id="previewName">Carregando...</h2>
+    <p id="previewBio"></p>
+    <div id="previewLinks"></div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -74,7 +124,8 @@
     </div>
   </footer>
 
-  <!-- Script -->
-  <script src="script.js"></script>
+  <!-- Scripts -->
+  <script type="module" src="./auth.js"></script>
+  <script type="module" src="./script.js"></script>
 </body>
 </html>
